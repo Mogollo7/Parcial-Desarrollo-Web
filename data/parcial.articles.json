@@ -1,0 +1,27 @@
+[{
+  "_id": {
+    "$oid": "69b45444ad1d5ca7080d7d16"
+  },
+  "titulo": "Laptop",
+  "description": "Laptop para desarrollo",
+  "value": 2500,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69b45606ad1d5ca7080d7d1a"
+  },
+  "titulo": "Cable USB",
+  "description": "Cable USB tipo C",
+  "value": 10,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69b45a25cc82bf6f6c4f1306"
+  },
+  "titulo": "Laptop",
+  "description": "Laptop gamer",
+  "value": 2000,
+  "__v": 0
+}]

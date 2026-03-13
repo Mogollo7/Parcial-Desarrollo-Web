@@ -1,0 +1,25 @@
+# admin
+
+{
+  "email": "admin@test.com",
+  "password": "admin123"
+}
+{
+  "email": "samu@test.com",
+  "password": "admin123"
+}
+
+# standar
+
+{
+  "email": "cesar@test.com",
+  "password": "123456"
+}
+{
+  "email": "juan@test.com",
+  "password": "123456"
+}
+{
+  "email": "user@test.com",
+  "password": "123456"
+}
