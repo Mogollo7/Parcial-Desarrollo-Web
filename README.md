@@ -43,6 +43,6 @@ una ves hayas hecho el log in tendras 15 minutos para crear articulos y/o consul
 Este proyecto está licenciado bajo la **MIT License**.
 
 # **Autores**
-[Juan Sebastian Martínez Galeano]
-[Samuel Usma Brand]
-[Cesar Alberto Ocampo Raigosa]
+- [Juan Sebastian Martínez Galeano]
+- [Samuel Usma Brand]
+- [Cesar Alberto Ocampo Raigosa]
