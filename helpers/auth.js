@@ -11,19 +11,28 @@ function createToken(usuario) {
         email: usuario.email,
         role: usuario.role,
         iat: moment().unix(),
-        exp: moment().add(5, 'minutes').unix()
+        exp: moment().add(15, 'seconds').unix()
     };
     return jwt.encode(payload, secret);
 }
 
 function validateToken(req, res, next) {
-    try {
-        let token = req.headers.authorization.replace(' Bearer ', '');
-        let payload = jwt.decode(token, secret);
-        req.user = payload;
-        next();
-    }catch(ex) {
-        res.status(401).send({message: 'Token no válido'}); }
+    
+    if(!req.headers.authorization){
+        return res.status(403).send({message: 'No se envió token'});
+    }
+    let token = req.headers.authorization.replace('Bearer ', '');
+    let payload;
 
-    };
+    try {
+    payload = jwt.decode(token, secret);
+} catch (err) {
+    if (err.message === 'Token expired') {
+        return res.status(401).send({ message: 'Token expirado' });
+    }
+    return res.status(401).send({ message: 'Token inválido' });
+}
+    req.usuario = payload;
+    next();
+}
 module.exports = {createToken, validateToken};
