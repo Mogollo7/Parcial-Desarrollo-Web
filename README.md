@@ -258,21 +258,20 @@ Asegúrate de tener instalado:
 
 Este proyecto está licenciado bajo la **MIT License**.
 
-## **Autores**
+## Autores
 
-<div align="center">
 
-<a href="https://github.com/Mogollo7">
-<img src="https://github.com/Mogollo7.png" width="100px;" style="border-radius: 50%"/><br>
+
+<img src="https://github.com/Mogollo7.png" width="100px;" style="border-radius:50%"><br>
 <sub><b>Juan Sebastian Martínez Galeano</b></sub>
 </a>
 
-<a href="https://github.com/Brandsete">
-<img src="https://github.com/Brandsete.png" width="100px;" style="border-radius: 50%"/><br>
+<img src="https://github.com/Brandsete.png" width="100px;" style="border-radius:50%"><br>
 <sub><b>Samuel Usma Brand</b></sub>
 </a>
 
-<a href="https://github.com/Cesar-csr">
-<img src="https://github.com/Cesar-csr.png" width="100px;" style="border-radius: 50%"/><br>
+<img src="https://github.com/Cesar-csr.png" width="100px;" style="border-radius:50%"><br>
 <sub><b>Cesar Alberto Ocampo Raigosa</b></sub>
 </a>
+
+
