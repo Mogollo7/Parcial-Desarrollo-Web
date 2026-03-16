@@ -1,9 +1,9 @@
 'use strict';
-
+require('dotenv').config();
 let jwt = require('jwt-simple');
 let moment = require('moment');
 
-let secret = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik,.,qw';
+let secret = process.env.JWT_SECRET;
 
 function createToken(usuario) {
     let payload = {
@@ -11,7 +11,7 @@ function createToken(usuario) {
         email: usuario.email,
         role: usuario.role,
         iat: moment().unix(),
-        exp: moment().add(15, 'seconds').unix()
+        exp: moment().add(process.env.TOKEN_EXPIRES_IN, 'seconds').unix()
     };
     return jwt.encode(payload, secret);
 }
