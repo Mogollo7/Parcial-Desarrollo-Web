@@ -19,7 +19,7 @@ function registrar(req, res){
     });
     usuario.save().then(
         (usuario) => {
-            res.status(200).send({ usuario: usuario});
+            res.status(201).send({ usuario: usuario});
         }
     ).catch(
         (err) => {

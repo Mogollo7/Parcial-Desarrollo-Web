@@ -4,7 +4,7 @@ let Article = require('../models/articles');
 
 function crearArticle(req, resp){
 
-if(!req.user || req.user.role !== 'admin'){
+if(!req.usuario || req.usuario.role !== 'admin'){
     return resp.status(403).send({
         message:'Solo los administradores pueden crear artículos'
     });
@@ -36,10 +36,57 @@ if(!req.user || req.user.role !== 'admin'){
         );
     }
 }
+function actualizarArticle(req, resp){
+    if(!req.usuario || req.usuario.role !== 'admin'){
+    return resp.status(403).send({
+        message:'Solo los administradores pueden editar artículos'
+    });
+}
+    let articleId = req.params.articleId;
+    let datosActualizados = req.body;
+
+    Article.findByIdAndUpdate(articleId, datosActualizados, {returnDocument: 'after'}).then(
+        (articleActualizado) => {
+            if(!articleActualizado){
+                return resp.status(404).send({
+                    message: 'Artículo no encontrado'
+                });
+            }
+            resp.status(200).send( { message: 'Artículo actualizado' });
+        }
+    ).catch(
+        (err) => {
+            resp.status(500).send({ message: 'Error al actualizar el artículo', error: err });
+        }
+    );
+}
+function eliminarArticle(req, resp){
+        if(!req.usuario || req.usuario.role !== 'admin'){
+    return resp.status(403).send({
+        message:'Solo los administradores pueden eliminar artículos'
+    });
+}
+    let articleId = req.params.articleId;
+    Article.findByIdAndDelete(articleId).then(
+        (articleEliminado) => {
+            if(!articleEliminado){
+                return resp.status(404).send({
+                    message: 'Artículo no encontrado'
+                });
+            }
+            resp.status(200).send({ message: 'Artículo eliminado', article: articleEliminado });
+        }
+    ).catch(
+        (err) => {
+            resp.status(500).send({ message: 'Error al eliminar el artículo', error: err });
+        }
+    );
+}
+
 function consultarTodos(req, resp){
     Article.find({ }).then(
-        (Article) => {
-            resp.status(200).send(Article);
+        (articles) => {
+            resp.status(200).send(articles);
         }
     ).catch(
         (err) => {
@@ -51,12 +98,15 @@ function consultarPorId(req, resp){
     let articleId = req.params.articleId;
     Article.findById(articleId).then(
         (article) => {
+            if(!article){
+                return resp.status(404).send({ message: 'Artículo no encontrado' });
+            }
             resp.status(200).send(article);
         }
     ).catch(
         (err) => {
-            resp.status(500).send({ message: 'Error al consultar artículo' });
+            resp.status(500).send({ message: 'Error al consultar artículo', error: err });
         }
     );
 }
-module.exports =  { crearArticle, consultarTodos, consultarPorId };
+module.exports =  { crearArticle, actualizarArticle, eliminarArticle, consultarTodos, consultarPorId };
