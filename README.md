@@ -1,48 +1,278 @@
+<div align="center">
+
 # Parcial-Desarrollo-Web
-![Static Badge](https://img.shields.io/badge/JavaScript-yellow?logo=javascript&logoColor=white)
+
+![JavaScript](https://img.shields.io/badge/JavaScript-yellow?logo=javascript&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white)
+![Mongoose](https://img.shields.io/badge/Mongoose-880000?logo=mongoose&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?logo=jsonwebtokens&logoColor=white)
+
+![diagram](img/diagram.png)
+
+<details>
+<summary>Más Capturas</summary>
+
+|        http        |       db       |
+| :-----------------: | :-------------: |
+| ![http](img/http.png) | ![db](img/db.png) |
+
+</details>
+
+</div>
 
 ## **Índice**
+
 1. [**Descripción**](#descripción)
 2. [**Instalación**](#instalación)
-3. [**Herramientas Utilizadas**](#herramientas-utilizadas)
+3. [**Herramientas utilizadas**](#herramientas-utilizadas)
 4. [**Uso**](#uso)
-5. [**Requisitos**](#requisitos)
-6. [**Licencia**](#licencia)
-7. [**Autores**](#autor)
+   - [**Notas de seguridad**](#notas-de-seguridad)
+   - [**Endpoints disponibles**](#endpoints-disponibles)
+     - [**Usuarios**](#usuarios)
+     - [**Artículos**](#artículos)
+   - [**Importar datos de prueba**](#importar-datos-de-prueba)
+5. [**Arquitectura**](#arquitectura)
+6. [**Requisitos**](#requisitos)
+7. [**Licencia**](#licencia)
+8. [**Autores**](#autores)
 
-# **Descripción**
-Este parcial consta de la creación de un backend basico con la capacidad de creacion de usuarios basados en roles los cuales tienen la capacidad de ingresar articulos y solicitarlos, al hacerlo se podran ver los articulos ingresados de manera general y definidos por el id de cada uno.
-hablando un poco sobre la estructura del backend encontramos varias carpetas con varios archivos en lenguaje de programación **javascript** los cuales se encargan de cumplir las funciones necesarias para el correcto funcionamiento del proyecto, los archivos de cada carpeta son llamados **users** y **articles** los cuales a pesar de llamarse igual cumplen con una función diferente (por esto se reparten en carpetas) a continuación tendremos una explicación de cada carpeta con sus respectivos archivos:
+## **Descripción**
 
-- **Carpeta controllers**: los archivos de esta carpeta se encargan de cumplir ciertas funciones dependiendo si hablamos de los usuarios o de los articulos, en el caso de los usuarios cumplen dos funciones como lo son registrar e ingresar una cuenta, mientas que en el caso de los articulos veremos funciones como crear un articulo, consultar todos los articulos o consultarlos por medio de su id, cada una de las funciones mencionadas tienen codigos de error que se lanzan en consola en caso de no cumplir con los parametros necesarios.
-- **Carpeta data**: en esta carpeta encontramos algunos archivos predeterminados que se encuentran guardados en una base de datos creada en mongodb, asi mismo cuenta con un archivo de texto que contiene algunos uuarios de prueba para usar el codigo (estos usuarios estan divididos en las categorias de admin y standar).
-- **helpers**: en esta carpeta veremos un archivo llamado **auth.js** el cual se encarga de crear tokens y codificarlos para mantenerlos en secreto, asi mismo se encarga de validar el token usado y enviar notificaciones en caso de que no se haya enviado ningun token, sea invalido o cuando expire el tiempo de uso estipulado que en este caso son 15 minutos.
-- **Carpeta models**: los archivos de esta carpeta se encargan de estipular la estructura que se debe usar a la hora de utilizar el programa, por ejemplo, la forma en la que debemos escribir las consultas para registrar un usuario.
-- **Carpeta routes**: Los archivos de esta carpeta se encargan de brindarnos una coneccion entre el programa, la base de datos en mongo db y el ejecutor que podria ser postman o thunder.
+Este proyecto es un **backend básico** desarrollado en **Node.js** con **Express**, diseñado
+para la gestión de usuarios y artículos mediante un sistema de **autenticación y autorización
+basado en roles**.
 
-# **Instalación**
-1. Debes asegurarte de tener instalado la ultima version de JavaScript
-2. En este caso estamos usando el entorno de programación Visual studio code para mayor comodidad pero puedes usar el entorno con el que mejor te sientas
-3. Clona el repositorio con el siguiente comando
-   ```bash
-      https://github.com/Mogollo7/Parcial-Desarrollo-Web.git
-4. abre una terminal y usa el comando npm install
+### Características principales
 
-# **Herramientas utilizadas**
-- **JavaScript**: Lenguaje de programación usado para crear paginas web interactivas, es decir, con diversas funcionalidades dentro de las mismas
+- **Autenticación con JWT**: El sistema genera un token de sesión cuya duración es
+  configurable a través de variables de entorno (`.env`). Este token debe incluirse en la
+  cabecera de cada solicitud a rutas protegidas.
+- **Manejo de roles**: Implementa roles de usuario `admin` y `standard`. Los privilegios
+  de creación, edición y eliminación de artículos están reservados exclusivamente para los
+  administradores.
+- **Protección de rutas**: Las rutas sensibles cuentan con un middleware de seguridad
+  que valida la autenticidad del token antes de permitir el acceso a los recursos.
+- **CRUD de artículos**: Permite la gestión completa de artículos por parte de los
+  administradores. Todos los usuarios pueden realizar consultas generales o búsquedas por ID.
+- **Gestión de usuarios**: Registro abierto para nuevos usuarios y sistema de login que
+  retorna el token de acceso necesario para interactuar con la API.
 
-# **Uso**
-Para usar este programa necesitaremos este codigo ejecutandolo en el entorno de programacion de su preferencia (recomendamos visual studio code), postman o thunder para usar el codigo y mongo db para la base de datos.
-en postman o thunder haremos varias consultas, para esto usaremos los datos proporcionados en el archivo **usuarios.txt** situeado en la **Carpeta data**, con estos podremos hacer un log in con alguna de las cuentas ya registradas por defecto o podemos registrar una nueva usando la estructura que encontramos en el archivo **users.js** de la **carpeta models**.
-una ves hayas hecho el log in tendras 15 minutos para crear articulos y/o consultarlos, asi mismo cada nuevo articulo o usuario que crees se va a guardar automaticamente en una base de datos que crees y conectes en mongo db
+## **Instalación**
 
-# **Requisitos**
-- **JavaScript**
+### Pasos
 
-# **Licencia**
+**1. Clona el repositorio**
+
+```bash
+git clone https://github.com/Mogollo7/Parcial-Desarrollo-Web.git
+```
+
+**2. Entra a la carpeta del proyecto**
+
+> [!IMPORTANT]
+> Asegúrese de que esté en la carpeta raíz para ejecutar el backend.
+
+```bash
+cd Parcial-Desarrollo-Web
+```
+
+**3. Instala las dependencias**
+
+```bash
+npm install
+```
+
+**4. Inicia MongoDB** abre una terminal y ejecuta el comando en la ruta raíz de la instalación de MongoDB:
+
+```bash
+mongod
+```
+
+**5. Inicia el servidor**
+
+```bash
+node index.js
+```
+
+**6. Verifica que el servidor esté corriendo**
+
+> [!NOTE]
+> Si tiene el puerto ocupado, ciérrelo y cámbielo en el archivo `.env` que está disponible para una fácil ejecución.
+
+```
+Conexión exitosa corriendo en el puerto 1702
+```
+
+## **Herramientas utilizadas**
+
+- **JavaScript**: Lenguaje de programación principal usado para desarrollar toda la lógica del backend.
+- **Node.js**: Entorno de ejecución de JavaScript del lado del servidor que permite correr el proyecto fuera del navegador.
+- **Express**: Framework de Node.js utilizado para crear el servidor, gestionar rutas y middlewares de forma sencilla.
+- **MongoDB**: Base de datos NoSQL orientada a documentos donde se almacenan los usuarios y artículos del sistema.
+- **Mongoose**: Librería de Node.js que facilita la conexión y el manejo de MongoDB mediante esquemas y modelos.
+- **JWT (jwt-simple)**: Librería para la creación y validación de tokens de autenticación JSON Web Token.
+- **bcryptjs**: Librería utilizada para encriptar las contraseñas de los usuarios antes de guardarlas en la base de datos.
+- **Moment.js**: Librería para el manejo de fechas y tiempos, usada para definir la expiración de los tokens JWT.
+- **dotenv**: Permite cargar variables de entorno desde el archivo `.env` para mantener datos sensibles fuera del código.
+- **body-parser**: Middleware que permite leer y procesar el cuerpo de las solicitudes HTTP en formato JSON.
+- **cors**: Middleware que habilita el intercambio de recursos entre diferentes dominios (Cross-Origin Resource Sharing).
+
+## **Uso**
+
+Para probar este proyecto, asegúrate de tener el servidor corriendo, **MongoDB** activo y una herramienta como **Postman** o **Thunder Client** para realizar las solicitudes.
+
+En la carpeta `data/` se encontrara archivos listos para usar:
+
+- `parcial.users.json` y `parcial.articles.json`: pueden importarse directamente a MongoDB para tener datos de prueba.
+- `usuarios.txt`: contiene credenciales de prueba **sin hashear**, separadas por rol (`admin` y `standard`), para que puedas iniciar sesión rápidamente.
+
+---
+
+### Notas de seguridad
+
+- **Contraseñas:** En la base de datos las contraseñas se guardan **hasheadas**. Si insertas usuarios manualmente en la base de datos sin usar el endpoint de registro, el login no funcionará correctamente.
+- **Roles:** Si al registrar un usuario no se envía el campo `"role"`, el sistema asignará automáticamente el rol **`standard`**.
+- **Permisos:** Solo los usuarios con rol **`admin`** pueden crear, actualizar o eliminar artículos.
+
+---
+
+### Endpoints disponibles
+
+#### Usuarios
+
+| Acción   | Método  | Endpoint          | Descripción                                                        |
+| --------- | -------- | ----------------- | ------------------------------------------------------------------- |
+| Registrar | `POST` | `/api/register` | Crea un usuario. Si no se especifica `role`, será `standard`.  |
+| Login     | `POST` | `/api/login`    | Devuelve un**token JWT** necesario para las rutas protegidas. |
+
+Ejemplo de registro:
+
+```http
+POST http://localhost:1702/api/register
+```
+
+```json
+{
+  "email": "nuevo@email.com",
+  "password": "123456",
+  "role": "admin"
+}
+```
+
+El login devuelve un **token JWT** que debe enviarse en las solicitudes protegidas mediante el header:
+
+```http
+Authorization: Bearer <token>
+```
+
+---
+
+#### Artículos
+
+| Acción       | Método    | Endpoint                    | Acceso     |
+| ------------- | ---------- | --------------------------- | ---------- |
+| Listar todos  | `GET`    | `/api/articles`           | Público   |
+| Buscar por ID | `GET`    | `/api/article/:articleId` | Público   |
+| Crear         | `POST`   | `/api/article`            | Solo admin |
+| Actualizar    | `PUT`    | `/api/article/:articleId` | Solo admin |
+| Eliminar      | `DELETE` | `/api/article/:articleId` | Solo admin |
+
+Ejemplo de creación de artículo:
+
+```http
+POST http://localhost:1702/api/article
+Authorization: Bearer <token>
+
+```
+
+> [!NOTE]
+> El Bearer se elimina junto con las comillas si lo copia
+
+```json
+{
+  "titulo": "Artículo de prueba",
+  "description": "Descripción del artículo",
+  "value": 100
+}
+```
+
+---
+
+### Importar datos de prueba
+
+Si prefieres no registrar usuarios manualmente, puedes importar los archivos de la carpeta `data/` usando los siguientes comandos:
+
+```bash
+# Importar usuarios
+mongoimport --db parcial --collection users --file data/parcial.users.json --jsonArray
+
+# Importar artículos
+mongoimport --db parcial --collection articles --file data/parcial.articles.json --jsonArray
+```
+
+Para iniciar sesión con los usuarios importados desde `parcial.users.json`, utiliza las contraseñas en texto plano que se encuentran en el archivo `users.txt`.
+
+## **Arquitectura**
+
+La arquitectura del proyecto se basa en una estructura modular para un backend en Node.js con Express.
+
+```
+Parcial-Desarrollo-Web/
+├── application.js                 # Configuración de la aplicación Express
+├── index.js                       # Archivo principal que inicia el servidor
+├── package.json                   # Dependencias y scripts del proyecto
+├── README.md                      # Documentación del proyecto
+├── LICENSE                        # Licencia del proyecto
+├── controllers/
+│   ├── articles.js                # Lógica de negocio para artículos
+│   └── users.js                   # Lógica de negocio para usuarios
+├── data/
+│   ├── parcial.articles.json      # Datos de prueba para artículos
+│   ├── parcial.users.json         # Datos de prueba para usuarios
+│   └── usuario.txt                # Credenciales de prueba
+├── helpers/
+│   └── auth.js                    # Utilidades de autenticación JWT
+├── img/
+│   ├── diagram.png                # Diagrama de la arquitectura
+│   ├── http.png                   # Captura de HTTP
+│   └── db.png                     # Captura de base de datos
+├── models/
+│   ├── articles.js                # Modelo de Mongoose para artículos
+│   └── users.js                   # Modelo de Mongoose para usuarios
+└── routes/
+    ├── articles.js                # Rutas de la API para artículos
+    └── users.js                   # Rutas de la API para usuarios
+```
+
+## **Requisitos**
+
+Asegúrate de tener instalado:
+
+- [Node.js](https://nodejs.org/en) (v24 o superior)
+- [MongoDB](https://www.mongodb.com/try/download/community) (local o Atlas)
+- [Postman](https://www.postman.com/downloads/) o [Thunder Client](https://www.thunderclient.com/)
+
+## **Licencia**
+
 Este proyecto está licenciado bajo la **MIT License**.
 
-# **Autores**
-- [Juan Sebastian Martínez Galeano]
-- [Samuel Usma Brand]
-- [Cesar Alberto Ocampo Raigosa]
+## **Autores**
+
+<div align="center">
+
+<a href="https://github.com/Mogollo7">
+<img src="https://github.com/Mogollo7.png" width="100px;" style="border-radius: 50%"/><br>
+<sub><b>Juan Sebastian Martínez Galeano</b></sub>
+</a>
+
+<a href="https://github.com/Brandsete">
+<img src="https://github.com/Brandsete.png" width="100px;" style="border-radius: 50%"/><br>
+<sub><b>Samuel Usma Brand</b></sub>
+</a>
+
+<a href="https://github.com/Cesar-csr">
+<img src="https://github.com/Cesar-csr.png" width="100px;" style="border-radius: 50%"/><br>
+<sub><b>Cesar Alberto Ocampo Raigosa</b></sub>
+</a>
