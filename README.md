@@ -84,22 +84,63 @@ cd Parcial-Desarrollo-Web
 npm install
 ```
 
-**4. Inicia MongoDB** abre una terminal y ejecuta el comando en la ruta raíz de la instalación de MongoDB:
+**4. Configura las variables de entorno**
+
+Copia el archivo de ejemplo y reemplaza los valores con tus propias credenciales:
+
+```bash
+cp .env.example .env
+```
+
+Luego abre el archivo `.env` y edita los valores según tu entorno:
+
+```env
+PORT=1702
+MONGO_URI=mongodb://localhost:27017/parcial
+JWT_SECRET=tu_secreto_super_seguro
+TOKEN_EXPIRES_IN=tiempo_de_expiracion_del_token
+TOKEN_EXPIRES_UNIT=unidad_de_tiempo_para_expiracion_del_token
+```
+
+**5. Inicia MongoDB**
+
+Elige **una** de las siguientes opciones según tu configuración:
+
+**Opción A — MongoDB como servicio del sistema** *(recomendado si ya está instalado como servicio)*
+
+En la mayoría de instalaciones modernas de MongoDB, el servicio ya corre automáticamente. Puedes verificarlo y/o iniciarlo con:
+
+```bash
+# Linux / macOS
+sudo systemctl status mongod      # verificar estado
+sudo systemctl start mongod       # iniciar si está detenido
+
+# Windows (PowerShell como administrador)
+Get-Service -Name MongoDB         # verificar estado
+Start-Service -Name MongoDB       # iniciar si está detenido
+```
+
+**Opción B — Iniciar MongoDB manualmente** *(si no lo tienes como servicio)*
+
+Abre una terminal separada y ejecuta el siguiente comando desde la ruta raíz de instalación de MongoDB:
 
 ```bash
 mongod
 ```
 
-**5. Inicia el servidor**
+> [!NOTE]
+> Deja esta terminal abierta mientras uses el proyecto. Si cierras la terminal, MongoDB se detendrá.
+
+**6. Inicia el servidor**
 
 ```bash
 node index.js
 ```
 
-**6. Verifica que el servidor esté corriendo**
+**7. Verifica que el servidor esté corriendo**
 
 > [!NOTE]
-> Si tiene el puerto ocupado, ciérrelo y cámbielo en el archivo `.env` que está disponible para una fácil ejecución.
+> Si tienes el puerto ocupado, ciérralo o cámbialo en el archivo `.env`.
 
 ```
 Conexión exitosa corriendo en el puerto 1702
@@ -126,7 +167,7 @@ Para probar este proyecto, asegúrate de tener el servidor corriendo, **MongoDB*
 En la carpeta `data/` se encontrara archivos listos para usar:
 
 - `parcial.users.json` y `parcial.articles.json`: pueden importarse directamente a MongoDB para tener datos de prueba.
-- `usuarios.txt`: contiene credenciales de prueba **sin hashear**, separadas por rol (`admin` y `standard`), para que puedas iniciar sesión rápidamente.
+- `users.txt`: contiene credenciales de prueba **sin hashear**, separadas por rol (`admin` y `standard`), para que puedas iniciar sesión rápidamente.
 
 ---
 
@@ -142,15 +183,18 @@ En la carpeta `data/` se encontrara archivos listos para usar:
 
 #### Usuarios
 
+> [!IMPORTANT]
+> Asegurece de que este en esta ruta base http://localhost:{Su puerto donde corre el backend}
+
 | Acción   | Método  | Endpoint          | Descripción                                                        |
 | --------- | -------- | ----------------- | ------------------------------------------------------------------- |
-| Registrar | `POST` | `/api/register` | Crea un usuario. Si no se especifica `role`, será `standard`.  |
-| Login     | `POST` | `/api/login`    | Devuelve un**token JWT** necesario para las rutas protegidas. |
+| Registrar | `POST` | `/api/usuario/registrar` | Crea un usuario. Si no se especifica `role`, será `standard`.  |
+| Login     | `POST` | `/api/usuario/login`    | Devuelve un**token JWT** necesario para las rutas protegidas. |
 
 Ejemplo de registro:
 
 ```http
-POST http://localhost:1702/api/register
+POST http://localhost:1702/api/usuario/registrar
 ```
 
 ```json
@@ -170,6 +214,8 @@ Authorization: Bearer <token>
 ---
 
 #### Artículos
+
+#### Rutas
 
 | Acción       | Método    | Endpoint                    | Acceso     |
 | ------------- | ---------- | --------------------------- | ---------- |
@@ -202,15 +248,12 @@ Authorization: Bearer <token>
 
 ### Importar datos de prueba
 
-Si prefieres no registrar usuarios manualmente, puedes importar los archivos de la carpeta `data/` usando los siguientes comandos:
+Si prefieres no registrar usuarios manualmente, puedes importar los archivos de la carpeta `data/` usando las siguientes instrucciones:
 
-```bash
-# Importar usuarios
-mongoimport --db parcial --collection users --file data/parcial.users.json --jsonArray
+- Abre la colección correspondiente 
+- Haz clic en el botón **"Add Data"** → **"Import JSON"** y selecciona los archivos `parcial.users.json` y `parcial.articles.json` de la carpeta `data/`.
 
-# Importar artículos
-mongoimport --db parcial --collection articles --file data/parcial.articles.json --jsonArray
-```
+![import data](img/adddata.png)
 
 Para iniciar sesión con los usuarios importados desde `parcial.users.json`, utiliza las contraseñas en texto plano que se encuentran en el archivo `users.txt`.
 
@@ -222,6 +265,7 @@ La arquitectura del proyecto se basa en una estructura modular para un backend e
 Parcial-Desarrollo-Web/
 ├── application.js                 # Configuración de la aplicación Express
 ├── index.js                       # Archivo principal que inicia el servidor
+├── .env.example                   # Plantilla de variables de entorno
 ├── package.json                   # Dependencias y scripts del proyecto
 ├── README.md                      # Documentación del proyecto
 ├── LICENSE                        # Licencia del proyecto
@@ -231,7 +275,7 @@ Parcial-Desarrollo-Web/
 ├── data/
 │   ├── parcial.articles.json      # Datos de prueba para artículos
 │   ├── parcial.users.json         # Datos de prueba para usuarios
-│   └── usuario.txt                # Credenciales de prueba
+│   └── users.txt                # Credenciales de prueba
 ├── helpers/
 │   └── auth.js                    # Utilidades de autenticación JWT
 ├── img/
@@ -273,5 +317,3 @@ Este proyecto está licenciado bajo la **MIT License**.
 <img src="https://github.com/Cesar-csr.png" width="100px;" style="border-radius:50%"><br>
 <sub><b>Cesar Alberto Ocampo Raigosa</b></sub>
 </a>
-
-
